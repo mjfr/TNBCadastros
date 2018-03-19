@@ -15,7 +15,7 @@ import br.com.animefriends.tnbcadastros.models.User;
 import br.com.animefriends.tnbcadastros.utils.SessionUtils;
 
 @Controller
-public class UserControllers {
+public class UserController {
 
 	@Autowired
 	private UserDAO userDAO;

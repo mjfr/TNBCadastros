@@ -13,7 +13,7 @@ public class ConnectionFactory {
 		final String USER = "root";
 		final String PASSWORD = "root132";
 
-		String sql = "jdbc:mysql://localhost:3306/bookstore?useTimezone=true&serverTimezone=UTC";
+		String sql = "jdbc:mysql://localhost:3306/TNBCadastros?useTimezone=true&serverTimezone=UTC";
 		connection = DriverManager.getConnection(sql, USER, PASSWORD);
 	}
 

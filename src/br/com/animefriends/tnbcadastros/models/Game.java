@@ -2,11 +2,14 @@ package br.com.animefriends.tnbcadastros.models;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Game {
 
 	private Long id;
 	private String name;
 	private GameCategory category;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date registerDate;
 	private User user;
 

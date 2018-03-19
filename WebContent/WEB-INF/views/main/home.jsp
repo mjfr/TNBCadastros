@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>TNB - Animes</title>
+<title>TNB - Home</title>
 </head>
 	<body>
 		<c:import url="../templates/loggedHead.jsp"/>
