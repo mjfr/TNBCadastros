@@ -19,26 +19,26 @@ public class UserControllers {
 
 	@Autowired
 	private UserDAO userDAO;
-	
+
 	@Autowired
 	private SessionUtils sessionUtils;
-	
+
 	@RequestMapping(value = "/user/new")
 	public String openForm() {
 		return "user/form";
 	}
-	
+
 	@PostMapping(value = "/user/save")
 	public String save(User user) {
 		userDAO.insert(user);
 		return "index";
 	}
-	
+
 	@GetMapping(value = "/login")
 	public String openLogin() {
 		return "user/login";
 	}
-	
+
 	@PostMapping(value = "/auth")
 	public String auth(User user, Model model) {
 		List<String> errors = new ArrayList<>(10);
@@ -52,7 +52,7 @@ public class UserControllers {
 			model.addAttribute("errors", errors);
 			return "user/login";
 		}
-		
+
 		User authUser = userDAO.auth(user);
 		if (authUser == null) {
 			return "user/login";
@@ -60,7 +60,7 @@ public class UserControllers {
 		sessionUtils.setLoggedUser(authUser);
 		return "redirect:app/";
 	}
-	
+
 	@GetMapping(value = "/logout")
 	public String doLogout() {
 		sessionUtils.KillSession();

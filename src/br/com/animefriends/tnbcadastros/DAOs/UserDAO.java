@@ -14,10 +14,11 @@ import br.com.animefriends.tnbcadastros.models.User;
 public class UserDAO {
 
 	private ConnectionFactory connectionFactory;
+
 	public UserDAO() {
 		connectionFactory = new ConnectionFactory();
 	}
-	
+
 	public void insert(User user) {
 		String sql = "INSERT INTO users SET name = ?, email = ?, password = ?, birthday = ?, gender = ?";
 		try {
@@ -31,11 +32,11 @@ public class UserDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public User auth(User user) {
 		String sql = "SELECT id, name, birthday, gender FROM users WHERE email = ? AND password = ?";
 		try {
@@ -45,20 +46,20 @@ public class UserDAO {
 			stmt.setString(2, user.getPassword());
 			ResultSet returns = stmt.executeQuery();
 			User authUser = null;
-			if(returns.next()) {
+			if (returns.next()) {
 				authUser = new User();
 				authUser.setId(returns.getLong("id"));
 				authUser.setName(returns.getString("name"));
 				authUser.setBirthday(returns.getDate("birthday"));
 				authUser.setGender(Gender.valueOf(returns.getString("gender")));
 				authUser.setEmail(user.getEmail());
-				authUser.setPassword(user.getPassword());				
-				}
+				authUser.setPassword(user.getPassword());
+			}
 			returns.close();
 			return authUser;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}

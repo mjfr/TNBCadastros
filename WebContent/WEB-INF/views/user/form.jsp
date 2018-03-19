@@ -16,11 +16,13 @@
 		</label><br>
 		<label>
 			E-mail
-			<input type="email" name="email">
+			<input type="email" placeHolder="example@email.com" name="email">
 		</label><br>
 		<label>
-			Gender
-			<input type="radio" name="gender">
+			Gender<br>
+			Male<input type="radio" name="gender" value="MALE">
+			Female<input type="radio" name="gender" value="FEMALE">
+			Other<input type="radio" name="gender" value="OTHER">
 		</label><br>
 		<label>
 			Birthday

@@ -17,10 +17,11 @@ import br.com.animefriends.tnbcadastros.models.User;
 public class GameDAO {
 
 	private ConnectionFactory connectionFactory;
+
 	public GameDAO() {
 		connectionFactory = new ConnectionFactory();
 	}
-	
+
 	public Game search(Long id) {
 		String sql = "SELECT name FROM games WHERE id = ?";
 		try {
@@ -29,7 +30,7 @@ public class GameDAO {
 			stmt.setLong(1, id);
 			ResultSet result = stmt.executeQuery();
 			Game g = new Game();
-			if(result.next()) {
+			if (result.next()) {
 				g.setId(id);
 				g.setName(result.getString("name"));
 			}
@@ -37,12 +38,12 @@ public class GameDAO {
 			return g;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
-	public List<Game> searchAllByUser(User user){
+
+	public List<Game> searchAllByUser(User user) {
 		String sql = "SELECT id, name, category, registerDate FROM games WHERE users_id = ?";
 		List<Game> listGames = new ArrayList<>(100);
 		try {
@@ -50,7 +51,7 @@ public class GameDAO {
 			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
 			stmt.setLong(1, user.getId());
 			ResultSet result = stmt.executeQuery();
-			while(result.next()) {
+			while (result.next()) {
 				Game g = new Game();
 				g.setId(result.getLong("id"));
 				g.setName(result.getString("name"));
@@ -62,11 +63,11 @@ public class GameDAO {
 			return listGames;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public void alter(Game game) {
 		String sql = "UPDATE games SET name = ?, category = ?, registerDate = ? WHERE id = ?";
 		try {
@@ -79,11 +80,11 @@ public class GameDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public void delete(Game game) {
 		String sql = "DELETE FROM games WHERE id = ?";
 		try {
@@ -93,11 +94,11 @@ public class GameDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public void insert(Game game) {
 		String sql = "INSERT INTO games SET users_id = ?, name = ?, category = ?, registerDate = ?";
 		try {
@@ -110,7 +111,7 @@ public class GameDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}

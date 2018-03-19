@@ -16,16 +16,16 @@ import br.com.animefriends.tnbcadastros.interceptors.InterceptorAuthentication;
 @Configuration
 @EnableWebMvc
 @ComponentScan("br.com.animefriends.tnbcadastros")
-public class WebConfig implements WebMvcConfigurer{
+public class WebConfig implements WebMvcConfigurer {
 
 	@Autowired
 	private InterceptorAuthentication interceptor;
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(interceptor).addPathPatterns("/**");
 	}
-	
+
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
@@ -34,7 +34,7 @@ public class WebConfig implements WebMvcConfigurer{
 		resolver.setSuffix(".jsp");
 		registry.viewResolver(resolver);
 	}
-	
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");

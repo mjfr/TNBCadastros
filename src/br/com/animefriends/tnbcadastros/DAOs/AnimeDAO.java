@@ -16,6 +16,7 @@ import br.com.animefriends.tnbcadastros.models.User;
 public class AnimeDAO {
 
 	private ConnectionFactory connectionFactory;
+
 	public AnimeDAO() {
 		connectionFactory = new ConnectionFactory();
 	}
@@ -28,7 +29,7 @@ public class AnimeDAO {
 			stmt.setLong(1, id);
 			ResultSet result = stmt.executeQuery();
 			Anime a = new Anime();
-			if(result.next()) {
+			if (result.next()) {
 				a.setId(id);
 				a.setName(result.getString("name"));
 			}
@@ -36,12 +37,12 @@ public class AnimeDAO {
 			return a;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
-	public List<Anime> searchAllByUser(User user){
+
+	public List<Anime> searchAllByUser(User user) {
 		String sql = "SELECT id, name, registerDate FROM animes WHERE users_id = ?";
 		List<Anime> listAnimes = new ArrayList<>(100);
 		try {
@@ -49,7 +50,7 @@ public class AnimeDAO {
 			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
 			stmt.setLong(1, user.getId());
 			ResultSet result = stmt.executeQuery();
-			while(result.next()) {
+			while (result.next()) {
 				Anime a = new Anime();
 				a.setId(result.getLong("id"));
 				a.setName(result.getString("name"));
@@ -60,11 +61,11 @@ public class AnimeDAO {
 			return listAnimes;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public void alter(Anime anime) {
 		String sql = "UPDATE animes SET name = ?, registerDate = ? WHERE id = ?";
 		try {
@@ -76,11 +77,11 @@ public class AnimeDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public void delete(Anime anime) {
 		String sql = "DELETE FORM animes WHERE id = ?";
 		try {
@@ -90,11 +91,11 @@ public class AnimeDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public void insert(Anime anime) {
 		String sql = "INSERT INTO animes SET users_id = ?, name = ?, registerDate = ?";
 		try {
@@ -106,7 +107,7 @@ public class AnimeDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
