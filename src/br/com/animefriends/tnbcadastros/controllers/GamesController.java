@@ -48,9 +48,9 @@ public class GamesController {
 		model.addAttribute("games", games);
 		return "games/list";
 	}
-	
-	@GetMapping(value = "/app/game/delete")
-	public String deleteGame(@RequestParam(name = "id", required = true) Long id, Game game){
+		
+	@GetMapping(value = "/game/delete")
+	public String deleteGame(@RequestParam(name = "id", required = true) Long id, Game game) {
 		game.setId(id);
 		gameDAO.delete(game);
 		return "redirect:/app/game/list";

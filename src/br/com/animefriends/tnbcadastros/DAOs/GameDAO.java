@@ -113,7 +113,6 @@ public class GameDAO {
 			throw new RuntimeException(e);
 		} finally {
 			connectionFactory.close();
-			System.out.println(game);
 		}
 	}
 }

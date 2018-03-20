@@ -8,6 +8,18 @@
 <title>TNB - Sign up</title>
 </head>
 <body>
+
+		<%-- Verificar se foram enviados erros --%>
+		
+		<c:if test="${not empty errors2}">
+			<div style="background-color: red; color: white">
+				<%-- Faz um laço percorrendo cada erro --%>
+				<c:forEach items="${errors2}" var="errors2">
+					<p>${errors2}</p>
+				</c:forEach>
+			</div>
+		</c:if>
+
 <c:url value="/user/save" var="urlSave"/>
 	<form method="post" action="${urlSave}">
 		<label>

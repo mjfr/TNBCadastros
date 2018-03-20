@@ -32,6 +32,7 @@
 						<td>${game.registerDate}</td>
 						<td>
 							<a href="${urlDelete}?id=${game.id}">Delete</a>
+							<a href="${urlEdit}?id=${game.id}">Edit</a>
 						</td>
 					</tr>
 				</c:forEach>
