@@ -32,17 +32,19 @@ public class AnimesController {
 	}
 
 	@GetMapping(value = "/anime/form")
-	public String openAnimeForm() {
+	public String openAnimeForm(Model model, @RequestParam(name = "id", required = false) Long id) {
+		if(id != null) {
+			Anime anime = animeDAO.search(id);
+			model.addAttribute("anime", anime);
+		}
 		return "animes/form";
 	}
 
 	@GetMapping(value = "/anime/list")
-	public String openAnimeList(Model model, @RequestParam(name = "id", required = false) Long id) {
+	public String openAnimeList(Model model) {
 		User loggedUser = sessionUtils.getLoggedUser();
 		List<Anime> animes = animeDAO.searchAllByUser(loggedUser);
 		model.addAttribute("animes", animes);
-		Anime anime = animeDAO.search(id);
-		model.addAttribute("anime", anime);
 		return "animes/list";
 	}
 

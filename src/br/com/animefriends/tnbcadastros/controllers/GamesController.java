@@ -32,17 +32,16 @@ public class GamesController {
 	}
 	
 	@GetMapping(value = "/game/form")
-	public String openGameForm() {
-
-		return "games/form";
-	}
-	
-	@GetMapping(value = "/game/list")
-	public String openGameList(Model model, @RequestParam(name = "id", required = false) Long id) {
+	public String openGameForm(Model model, @RequestParam(name = "id", required = false) Long id) {
 		if(id != null) {
 			Game game = gameDAO.search(id);
 			model.addAttribute("game", game);
 		}
+		return "games/form";
+	}
+	
+	@GetMapping(value = "/game/list")
+	public String openGameList(Model model) {
 		User loggedUser = sessionUtils.getLoggedUser();
 		List<Game> games = gameDAO.searchAllByUser(loggedUser);
 		model.addAttribute("games", games);
