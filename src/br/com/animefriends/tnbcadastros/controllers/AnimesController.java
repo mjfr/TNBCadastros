@@ -38,13 +38,11 @@ public class AnimesController {
 
 	@GetMapping(value = "/anime/list")
 	public String openAnimeList(Model model, @RequestParam(name = "id", required = false) Long id) {
-		if (id != null) {
-			Anime anime = animeDAO.search(id);
-			model.addAttribute("anime", anime);
-		}
 		User loggedUser = sessionUtils.getLoggedUser();
 		List<Anime> animes = animeDAO.searchAllByUser(loggedUser);
 		model.addAttribute("animes", animes);
+		Anime anime = animeDAO.search(id);
+		model.addAttribute("anime", anime);
 		return "animes/list";
 	}
 

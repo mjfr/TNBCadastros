@@ -51,6 +51,7 @@ public class UserController {
 			model.addAttribute("errors2", errors2);
 		}
 		userDAO.insert(user);
+		System.out.println(errors2);
 		return "index";
 	}
 
@@ -78,6 +79,7 @@ public class UserController {
 			return "user/login";
 		}
 		sessionUtils.setLoggedUser(authUser);
+		System.out.println(errors);
 		return "redirect:app/";
 	}
 

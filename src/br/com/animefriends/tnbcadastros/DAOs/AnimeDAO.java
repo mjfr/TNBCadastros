@@ -83,7 +83,7 @@ public class AnimeDAO {
 	}
 
 	public void delete(Anime anime) {
-		String sql = "DELETE FORM animes WHERE id = ?";
+		String sql = "DELETE FROM animes WHERE id = ?";
 		try {
 			connectionFactory.open();
 			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);

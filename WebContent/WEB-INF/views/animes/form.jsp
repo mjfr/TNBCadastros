@@ -21,7 +21,6 @@
 					<input type="text" name="name" value="${anime.name}">
 				</label>
 				<button type="submit">Save</button>
-				<button type="reset">Clear</button>
 			</form>
 		</div>
 	</body>
