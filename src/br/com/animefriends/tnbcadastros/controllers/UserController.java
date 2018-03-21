@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.animefriends.tnbcadastros.DAOs.UserDAO;
 import br.com.animefriends.tnbcadastros.models.User;
@@ -30,29 +32,58 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/user/save")
-	public String save(User user, Model model) {
-		List<String> errors2 = new ArrayList<>(20);
-		if (user.getName().isEmpty() && user.getName().length() < 2 && user.getName().length() > 60) {
-			errors2.add("Your e-mail is obligatory and it must contain between 7 and 60 characters");
+	public String save(User user, RedirectAttributes value, @RequestParam(value = "confirmation", required = false) String passwordConfirmation, @RequestParam(value = "email", required = false) String emailcomparison) {
+		List<String> errors2 = new ArrayList<>();
+		if (user.getName().isEmpty()) {
+			errors2.add("Name field is empty");
 		}
-		if (user.getEmail().isEmpty() && user.getEmail().length() < 7 && user.getEmail().length() > 100) { //* para validar o e-mail pode-se fazer um select no banco de dados e comparar com o e-mail digitado para ver se é único
-			errors2.add("Your e-mail is obligatory and it must contain between 7 and 60 characters");
+		if (user.getName().length() < 2) {
+			errors2.add("Your name must have at least 2 characters");
 		}
-		if (user.getPassword().isEmpty() && user.getPassword().length() < 2 && user.getPassword().length() > 20) {
-			errors2.add("Your password is obligatory and it must contain between 2 and 20 characters");
+		if (user.getName().length() > 60) {
+			errors2.add("Your name must have less than 60 characters");
 		}
-		if (user.getBirthday() == null && user.getBirthday().getTime() < new Date().getTime()) {
-			errors2.add("Your birthday is obligatory and it can't be higher than today's day");
+		if (user.getEmail().isEmpty()) { //* para validar o e-mail pode-se fazer um select no banco de dados e comparar com o e-mail digitado para ver se é único
+			errors2.add("E-mail field is empty");
+		}
+		if (user.getEmail().length() < 7) { //* para validar o e-mail pode-se fazer um select no banco de dados e comparar com o e-mail digitado para ver se é único
+			errors2.add("Your e-mail must have at least 7 characters");
+		}
+		if (user.getEmail().length() > 100) { //* para validar o e-mail pode-se fazer um select no banco de dados e comparar com o e-mail digitado para ver se é único
+			errors2.add("Your e-mail must have less than 100 characters");
+		}
+		if (user.getPassword().isEmpty()) {
+			errors2.add("Password field is empty");
+		}
+		if (user.getPassword().length() < 2) {
+			errors2.add("Your password must have at least 2 characters");
+		}
+		if (user.getPassword().length() > 20) {
+			errors2.add("Your password must have less than 20 characters");
+		}
+		if (user.getBirthday() == null) {
+			errors2.add("Date field is empty");
+		}else {
+			if (user.getBirthday().getTime() > new Date().getTime()) {
+				errors2.add("Your birthday date must be lower than today's date");
+			}			
 		}
 		if (user.getGender() == null) {
-			errors2.add("Your gender is obligatory");
+			errors2.add("No gender was selected");
 		}
+		if (!(user.getPassword() != passwordConfirmation && user.getPassword().equals(passwordConfirmation))) {
+			errors2.add("Your password doesn't match the confirmation");
+		}
+//		if (user.getEmail() == userDAO.verifyEmail(emailcomparison).toString()){
+//			errors2.add("This e-mail already exists");
+//		}
 		if (!errors2.isEmpty()) {
-			model.addAttribute("errors2", errors2);
-		}
+			value.addFlashAttribute("errors2", errors2);
+		}else {
 		userDAO.insert(user);
-		System.out.println(errors2);
-		return "index";
+		return "user/login";
+		}
+		return "redirect:/user/new";
 	}
 
 	@GetMapping(value = "/login")

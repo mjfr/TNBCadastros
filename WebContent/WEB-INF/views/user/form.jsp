@@ -43,7 +43,7 @@
 		<label>
 			Password
 			<input type="password" name="password">
-		</label>
+		</label><br>
 		<label>
 			Confirm password
 			<input type="password" name="confirmation">

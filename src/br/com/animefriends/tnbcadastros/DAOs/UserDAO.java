@@ -37,6 +37,26 @@ public class UserDAO {
 		}
 	}
 
+//	public User verifyEmail(String email) {
+//		String sql = "SELECT email FROM users where email = ?";
+//		try {
+//			connectionFactory.open();
+//			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
+//			stmt.setString(1, email.toString());
+//			ResultSet result = stmt.executeQuery();
+//			User u = new User();
+//			if(result.next()) {
+//				u.setEmail(result.getString("email"));
+//			}
+//			result.close();
+//			return u;
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}finally {
+//			connectionFactory.close();
+//		}
+//	}
+	
 	public User auth(User user) {
 		String sql = "SELECT id, name, birthday, gender FROM users WHERE email = ? AND password = ?";
 		try {
