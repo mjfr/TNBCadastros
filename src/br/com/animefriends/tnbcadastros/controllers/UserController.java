@@ -71,7 +71,7 @@ public class UserController {
 		if (user.getGender() == null) {
 			errors2.add("No gender was selected");
 		}
-		if (!(user.getPassword() != passwordConfirmation && user.getPassword().equals(passwordConfirmation))) {
+		if (!(user.getPassword().equals(passwordConfirmation))) {
 			errors2.add("Your password doesn't match the confirmation");
 		}
 //		if (user.getEmail() == userDAO.verifyEmail(emailcomparison).toString()){

@@ -1,5 +1,6 @@
 package br.com.animefriends.tnbcadastros.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.animefriends.tnbcadastros.DAOs.GameDAO;
 import br.com.animefriends.tnbcadastros.models.Game;
@@ -56,13 +58,27 @@ public class GamesController {
 	}
 	
 	@PostMapping(value = "/game/save")
-	public String saveGame(Game game) {
+	public String saveGame(Game game, RedirectAttributes value) {
 		game.setUser(sessionUtils.getLoggedUser());
 		game.setRegisterDate(new Date());
-		if (game.getId() == null) {
-			gameDAO.insert(game);
+		List<String> errors3 = new ArrayList<>();
+		if(game.getName().isEmpty()) {
+			errors3.add("Name field is empty");
+		}
+		if(game.getName().length() > 40) {
+			errors3.add("Game name is too long, it must have at most 40 characters");
+		}
+		if (!errors3.isEmpty()) {
+			value.addFlashAttribute("errors3", errors3);
 		} else {
-			gameDAO.alter(game);
+			if (game.getId() == null) {
+				gameDAO.insert(game);
+				return "redirect:/app/game/form";
+			} 
+			if (game.getId() != null){
+				gameDAO.alter(game);
+				return "redirect:/app/game/list";
+			}
 		}
 		return "redirect:/app/game/form";
 	}

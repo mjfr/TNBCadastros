@@ -14,6 +14,15 @@
 	<body>
 		<c:import url="../templates/loggedHead.jsp"/>
 		
+		<%-- Verificar se foram enviados erros --%>
+		<c:if test="${not empty errors3}">
+			<div style="background-color: red; color: white">
+				<c:forEach items="${errors3}" var="errors3">
+					<p>${errors3}</p>
+				</c:forEach>
+			</div>
+		</c:if>
+		
 		<div>
 			<form method="post" action="${urlSave}">
 				<input type="hidden" name="id" value="${game.id}">

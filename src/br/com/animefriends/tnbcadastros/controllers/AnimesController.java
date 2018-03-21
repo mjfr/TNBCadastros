@@ -1,5 +1,6 @@
 package br.com.animefriends.tnbcadastros.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.animefriends.tnbcadastros.DAOs.AnimeDAO;
 import br.com.animefriends.tnbcadastros.models.Anime;
@@ -56,13 +58,27 @@ public class AnimesController {
 	}
 
 	@PostMapping(value = "/anime/save")
-	public String saveAnime(Anime anime) {
+	public String saveAnime(Anime anime, RedirectAttributes value) {
 		anime.setUser(sessionUtils.getLoggedUser());
 		anime.setRegisterDate(new Date());
-		if (anime.getId() == null) {
-			animeDAO.insert(anime);
+		List<String> errors4 = new ArrayList<>();
+		if (anime.getName().isEmpty()) {
+			errors4.add("Name field is empty");
+		}
+		if (anime.getName().length() > 40) {
+			errors4.add("Anime name is too long, it must have less than 40 characters");
+		}
+		if (!errors4.isEmpty()) {
+			value.addFlashAttribute("errors4", errors4);
 		} else {
-			animeDAO.alter(anime);
+			if (anime.getId() == null) {
+				animeDAO.insert(anime);
+				return "redirect:/app/anime/form";
+			} 
+			if(anime.getId() != null) {
+				animeDAO.alter(anime);
+				return "redirect:/app/anime/list";
+			}
 		}
 		return "redirect:/app/anime/form";
 	}
