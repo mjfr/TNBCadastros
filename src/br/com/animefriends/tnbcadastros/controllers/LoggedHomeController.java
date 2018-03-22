@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/app")
 public class LoggedHomeController {
 
-	@GetMapping(value = {"", "/"})
+	@GetMapping(value = { "", "/" }) // Ao fazer login, o usuário recebe a chave "/app" e é direcionado a home
 	public String openMainPage() {
 		return "main/home";
 	}
-	
+
 	@GetMapping(value = "/main/home")
 	public String openHomePage() {
 		return "main/home";

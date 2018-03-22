@@ -18,42 +18,44 @@ import br.com.animefriends.tnbcadastros.utils.SessionUtils;
 @Controller
 @RequestMapping(value = "/app")
 public class UserOptionsController {
-	
+
 	@Autowired
 	private UserDAO userDAO;
 
 	@Autowired
 	private SessionUtils sessionUtils;
-	
+
 	@GetMapping(value = "/option/new")
 	public String openOptions() {
 		return "options/main";
 	}
-	
+
 	@GetMapping(value = "/options/edit/data")
 	public String openEditData() {
 		return "options/change-register-data";
 	}
-	
+
 	@PostMapping(value = "/options/edit/data")
 	public String editData(User user, RedirectAttributes value) {
 		user.setId(sessionUtils.getLoggedUser().getId());
 		userDAO.editData(user);
 		return "redirect:/app/main/home";
 	}
-	
+
 	@GetMapping(value = "/options/edit/password")
 	public String openEditPassword() {
 		return "options/change-password";
 	}
-	
+
 	@PostMapping(value = "/options/edit/password")
-	public String editPassword(User user, RedirectAttributes value, @RequestParam(value = "confirmation", required = false) String newPasswordConfirmation,
+	public String editPassword(User user, RedirectAttributes value,
+			@RequestParam(value = "confirmation", required = false) String newPasswordConfirmation,
 			@RequestParam(value = "oldPassword", required = false) String oldPassword) {
-		user.setId(sessionUtils.getLoggedUser().getId());
-		String oldPsd = sessionUtils.getLoggedUser().getPassword();
+		user.setId(sessionUtils.getLoggedUser().getId()); // Pega o id do usuário logado
+		String oldPsd = sessionUtils.getLoggedUser().getPassword(); /* Coloca a senha antiga em uma variável para
+																	comparação*/
 		List<String> errors5 = new ArrayList<>();
-		if(!(user.getPassword().equals(newPasswordConfirmation))) {
+		if (!(user.getPassword().equals(newPasswordConfirmation))) {
 			errors5.add("Your new password doesn't match the confirmation");
 		}
 		if (user.getPassword().isEmpty()) {
@@ -63,7 +65,8 @@ public class UserOptionsController {
 			errors5.add("To change your password, you need to fill your old password first");
 		}
 		if (newPasswordConfirmation.isEmpty() && user.getPassword().isEmpty()) {
-			errors5.add("To change your password, you need to write your new password again to confirm if it's rigth or not");
+			errors5.add(
+					"To change your password, you need to write your new password again to confirm if it's rigth or not");
 		}
 		if (user.getPassword().length() < 2) {
 			errors5.add("Your password must have at least 2 characters");
@@ -83,5 +86,5 @@ public class UserOptionsController {
 		}
 		return "redirect:/app/options/edit/password";
 	}
-	
+
 }

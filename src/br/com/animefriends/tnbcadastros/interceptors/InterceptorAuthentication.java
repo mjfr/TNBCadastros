@@ -22,8 +22,10 @@ public class InterceptorAuthentication extends HandlerInterceptorAdapter {
 		boolean needAuthentication = request.getRequestURI().contains("/app");
 		if (needAuthentication && !sessionUtils.isUserLogged()) {
 			response.setStatus(401);
+			// Nega o acesso
 			return false;
 		} else {
+			// Libera o acesso
 			return true;
 		}
 	}

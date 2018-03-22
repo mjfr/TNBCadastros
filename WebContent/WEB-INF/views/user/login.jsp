@@ -10,7 +10,7 @@
 <body>
 
 	<c:if test="${not empty errors}">
-		<div style="color: red">
+		<div style="background-color: red; color: white">
 			<c:forEach items="${errors}" var="error">
 				<p>${error}</p>
 			</c:forEach>
@@ -29,6 +29,5 @@
 		</label><br>
 		<button type="submit">Login</button>
 	</form>
-
 </body>
 </html>

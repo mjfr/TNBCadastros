@@ -22,26 +22,26 @@ import br.com.animefriends.tnbcadastros.utils.SessionUtils;
 @RequestMapping(value = "/app")
 public class GamesController {
 
-	@Autowired 
+	@Autowired
 	private GameDAO gameDAO;
-	
+
 	@Autowired
 	private SessionUtils sessionUtils;
-	
+
 	@GetMapping(value = "/game/new")
 	public String openMainGamePage() {
 		return "games/main";
 	}
-	
+
 	@GetMapping(value = "/game/form")
 	public String openGameForm(Model model, @RequestParam(name = "id", required = false) Long id) {
-		if(id != null) {
+		if (id != null) {
 			Game game = gameDAO.search(id);
 			model.addAttribute("game", game);
 		}
 		return "games/form";
 	}
-	
+
 	@GetMapping(value = "/game/list")
 	public String openGameList(Model model) {
 		User loggedUser = sessionUtils.getLoggedUser();
@@ -49,23 +49,23 @@ public class GamesController {
 		model.addAttribute("games", games);
 		return "games/list";
 	}
-		
+
 	@GetMapping(value = "/game/delete")
 	public String deleteGame(@RequestParam(name = "id", required = true) Long id, Game game) {
 		game.setId(id);
 		gameDAO.delete(game);
 		return "redirect:/app/game/list";
 	}
-	
+
 	@PostMapping(value = "/game/save")
 	public String saveGame(Game game, RedirectAttributes value) {
 		game.setUser(sessionUtils.getLoggedUser());
 		game.setRegisterDate(new Date());
 		List<String> errors3 = new ArrayList<>();
-		if(game.getName().isEmpty()) {
+		if (game.getName().isEmpty()) {
 			errors3.add("Name field is empty");
 		}
-		if(game.getName().length() > 40) {
+		if (game.getName().length() > 40) {
 			errors3.add("Game name is too long, it must have at most 40 characters");
 		}
 		if (!errors3.isEmpty()) {
@@ -74,8 +74,8 @@ public class GamesController {
 			if (game.getId() == null) {
 				gameDAO.insert(game);
 				return "redirect:/app/game/form";
-			} 
-			if (game.getId() != null){
+			}
+			if (game.getId() != null) {
 				gameDAO.alter(game);
 				return "redirect:/app/game/list";
 			}

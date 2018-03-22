@@ -25,21 +25,21 @@ public class GameDAO {
 	public Game search(Long id) {
 		String sql = "SELECT name FROM games WHERE id = ?";
 		try {
-			connectionFactory.open();
+			connectionFactory.open();// Abre conexão com o banco
 			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
-			stmt.setLong(1, id);
-			ResultSet result = stmt.executeQuery();
+			stmt.setLong(1, id);// Adiciona o parâmetro do filtro
+			ResultSet result = stmt.executeQuery();// Realiza a busca
 			Game g = new Game();
 			if (result.next()) {
 				g.setId(id);
 				g.setName(result.getString("name"));
 			}
-			result.close();
-			return g;
+			result.close(); // Após o término do ResultSet, ele é fechado
+			return g; // Retorna o jogo
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
-			connectionFactory.close();
+			connectionFactory.close();// Fecha a conexão com o banco
 		}
 	}
 

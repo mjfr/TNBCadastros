@@ -15,7 +15,6 @@ import br.com.animefriends.tnbcadastros.utils.SessionUtils;
 public class UserDAO {
 
 	private ConnectionFactory connectionFactory;
-	private SessionUtils sessionUtils;
 
 	public UserDAO() {
 		connectionFactory = new ConnectionFactory();
@@ -39,27 +38,27 @@ public class UserDAO {
 		}
 	}
 
-//	public User verifyEmail(String email) {
-//		String sql = "SELECT email FROM users where email = ?";
-//		try {
-//			connectionFactory.open();
-//			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
-//			stmt.setString(1, email.toString());
-//			stmt.setString(2, email.toString());
-//			ResultSet result = stmt.executeQuery();
-//			User u = new User();
-//			if(result.next()) {
-//				u.setEmail(result.getString("email"));
-//			}
-//			result.close();
-//			return u;
-//		} catch (Exception e) {
-//			throw new RuntimeException(e);
-//		}finally {
-//			connectionFactory.close();
-//		}
-//	}
-	
+	public User verifyEmail(String email) {
+		String sql = "SELECT email FROM users WHERE email = ?";
+		try {
+			connectionFactory.open();
+			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
+			stmt.setString(1, email);
+			ResultSet result = stmt.executeQuery();
+			User u = null;
+			if (result.next()) {
+				u = new User();
+				u.setEmail(result.getString("email"));
+			}
+			result.close();
+			return u;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		} finally {
+			connectionFactory.close();
+		}
+	}
+
 	public User auth(User user) {
 		String sql = "SELECT id, name, birthday, gender FROM users WHERE email = ? AND password = ?";
 		try {
@@ -86,7 +85,7 @@ public class UserDAO {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public void editPassword(User user) {
 		String sql = "UPDATE users SET password = ? WHERE id = ?";
 		try {
@@ -97,11 +96,11 @@ public class UserDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
-	
+
 	public void editData(User user) {
 		String sql = "UPDATE users SET name = ?, birthday = ? WHERE id = ?";
 		try {
@@ -113,7 +112,7 @@ public class UserDAO {
 			stmt.execute();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}finally {
+		} finally {
 			connectionFactory.close();
 		}
 	}
