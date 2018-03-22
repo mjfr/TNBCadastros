@@ -24,7 +24,7 @@
 		
 		<div>
 			<form method="post" action="${urlSave}">
-				<input type="hidden" name="id" value="${anime.id}">
+				<input type="hidden" autofocus="autofocus" name="id" value="${anime.id}">
 				<label>
 					Name
 					<input type="text" name="name" value="${anime.name}">

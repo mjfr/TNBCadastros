@@ -3,21 +3,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%-- Declaração de URLs --%>
-	<c:url value="/app/anime/form" var="urlForm"/>
-	<c:url value="/app/anime/list" var="urlListA"/>
+	<c:url value="/app/options/edit/data" var="urlNB"/>
+	<c:url value="/app/options/edit/password" var="urlPsd"/>
 <%-- Fim da declaração --%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>TNB - Animes</title>
+<title>TNB - Profile Options</title>
 </head>
 	<body>
 		<c:import url="../templates/loggedHead.jsp"/>
 		<ul>
-			<li><a href="${urlForm}">Add an anime!</a></li>
-			<li><a href="${urlListA}">Animes list</a></li>
+			<li><a href="${urlNB}">Edit name / birthday</a></li>
+			<li><a href="${urlPsd}">Edit password</a></li>
 		</ul>
 	</body>
 </html>

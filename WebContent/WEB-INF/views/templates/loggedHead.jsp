@@ -7,8 +7,7 @@
 		<c:url value="/app/game/new" var="urlNewGame"/>
 		<c:url value="/logout" var="urlLogout"/>
 		<c:url value="/app/main/home" var="urlHome"/>
-		<c:url value="/app/game/list" var="urlListG"/>
-		<c:url value="/app/anime/list" var="urlListA"/>
+		<c:url value="/app/option/new" var="urlNewOptions"/>
 <%-- Fim da declaração --%>
 
 <!DOCTYPE html>
@@ -20,9 +19,8 @@
 	<ul>
 		<li><a href="${urlHome}">Home</a></li>
 		<li><a href="${urlNewAnime}">Animes session</a></li>
-		<li><a href="${urlListA}">Animes list</a></li>
 		<li><a href="${urlNewGame}">Games session</a></li>
-		<li><a href="${urlListG}">Games list</a></li>
+		<li><a href="${urlNewOptions}">Profile Options</a></li>
 		<li><a href="${urlLogout}">Log out</a></li>
 	</ul>
 	</body>

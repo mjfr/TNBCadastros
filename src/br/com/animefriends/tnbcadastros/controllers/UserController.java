@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.animefriends.tnbcadastros.DAOs.UserDAO;
@@ -26,7 +26,7 @@ public class UserController {
 	@Autowired
 	private SessionUtils sessionUtils;
 
-	@RequestMapping(value = "/user/new")
+	@GetMapping(value = "/user/new")
 	public String openForm() {
 		return "user/form";
 	}
@@ -92,27 +92,25 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/auth")
-	public String auth(User user, Model model) {
+	public String auth(User user, RedirectAttributes value) {
 		List<String> errors = new ArrayList<>(20);
-		if (user.getEmail() == null && user.getEmail().length() < 7 && user.getEmail().length() > 100) {
-			errors.add("Your e-mail is obligatory and it must contain between 7 and 60 characters");
+		if (user.getEmail().isEmpty()) { //* para validar o e-mail pode-se fazer um select no banco de dados e comparar com o e-mail digitado para ver se é único
+			errors.add("E-mail field is empty");
 		}
-		if (user.getPassword() == null && user.getPassword().length() < 2 && user.getPassword().length() > 20) {
-			errors.add("Your password is obligatory and it must contain between 2 and 20 characters");
+		if (user.getPassword().isEmpty()) {
+			errors.add("Password field is empty");
 		}
 		if (!errors.isEmpty()) {
-			model.addAttribute("errors", errors);
+			value.addFlashAttribute("errors", errors);
 			return "user/login";
 		}
-
-		User authUser = userDAO.auth(user);
-		if (authUser == null) {
-			return "user/login";
+			User authUser = userDAO.auth(user);
+			if (authUser == null) {
+				return "user/login";
+			}
+			sessionUtils.setLoggedUser(authUser);
+			return "redirect:app/";
 		}
-		sessionUtils.setLoggedUser(authUser);
-		System.out.println(errors);
-		return "redirect:app/";
-	}
 
 	@GetMapping(value = "/logout")
 	public String doLogout() {

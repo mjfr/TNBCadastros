@@ -28,7 +28,7 @@
 				<input type="hidden" name="id" value="${game.id}">
 				<label>
 					Name
-					<input type="text" name="name" value="${game.name}">
+					<input type="text" name="name" autofocus="autofocus" value="${game.name}">
 				</label>
 				<label>
 					Category

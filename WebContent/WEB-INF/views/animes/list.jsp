@@ -28,7 +28,7 @@
 				<c:forEach items="${animes}" var="anime">
 					<tr>
 						<td>${anime.name}</td>
-						<td>${anime.registerDate}</td>
+						<td><c:out value="${anime.registerDate}"/></td>
 						<td>
 							<a href="${urlDelete}?id=${anime.id}">Delete</a>
 							<a href="${urlEdit}?id=${anime.id}">Edit</a>

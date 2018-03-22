@@ -4,6 +4,7 @@
 
 <%-- Declaração de URLs --%>
 	<c:url value="/app/game/form" var="urlForm"/>
+	<c:url value="/app/game/list" var="urlListG"/>
 <%-- Fim da declaração --%>
 
 <!DOCTYPE html>
@@ -14,6 +15,9 @@
 </head>
 	<body>
 		<c:import url="../templates/loggedHead.jsp"/>
-		<a href="${urlForm}">Add a game!</a>
+		<ul>
+			<li><a href="${urlForm}">Add a game!</a></li>
+			<li><a href="${urlListG}">Games list</a></li>
+		</ul>
 	</body>
 </html>

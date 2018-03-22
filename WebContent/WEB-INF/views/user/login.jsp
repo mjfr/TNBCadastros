@@ -21,7 +21,7 @@
 	<form method="post" action="${urlAuth}">
 		<label>
 			E-mail
-			<input type="email" name="email">
+			<input type="email" name="email" autofocus="autofocus">
 		</label><br>
 		<label>
 			Password

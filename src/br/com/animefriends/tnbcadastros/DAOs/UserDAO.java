@@ -9,11 +9,13 @@ import org.springframework.stereotype.Repository;
 import br.com.animefriends.tnbcadastros.connectionFactory.ConnectionFactory;
 import br.com.animefriends.tnbcadastros.models.Gender;
 import br.com.animefriends.tnbcadastros.models.User;
+import br.com.animefriends.tnbcadastros.utils.SessionUtils;
 
 @Repository
 public class UserDAO {
 
 	private ConnectionFactory connectionFactory;
+	private SessionUtils sessionUtils;
 
 	public UserDAO() {
 		connectionFactory = new ConnectionFactory();
@@ -43,6 +45,7 @@ public class UserDAO {
 //			connectionFactory.open();
 //			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
 //			stmt.setString(1, email.toString());
+//			stmt.setString(2, email.toString());
 //			ResultSet result = stmt.executeQuery();
 //			User u = new User();
 //			if(result.next()) {
@@ -80,6 +83,37 @@ public class UserDAO {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} finally {
+			connectionFactory.close();
+		}
+	}
+	
+	public void editPassword(User user) {
+		String sql = "UPDATE users SET password = ? WHERE id = ?";
+		try {
+			connectionFactory.open();
+			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
+			stmt.setString(1, user.getPassword());
+			stmt.setLong(2, user.getId());
+			stmt.execute();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}finally {
+			connectionFactory.close();
+		}
+	}
+	
+	public void editData(User user) {
+		String sql = "UPDATE users SET name = ?, birthday = ? WHERE id = ?";
+		try {
+			connectionFactory.open();
+			PreparedStatement stmt = connectionFactory.getConnection().prepareStatement(sql);
+			stmt.setString(1, user.getName());
+			stmt.setDate(2, new Date(user.getBirthday().getTime()));
+			stmt.setLong(3, user.getId());
+			stmt.execute();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}finally {
 			connectionFactory.close();
 		}
 	}

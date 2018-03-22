@@ -24,7 +24,7 @@
 	<form method="post" action="${urlSave}">
 		<label>
 			Name
-			<input type="text" name="name">
+			<input type="text" name="name" autofocus="autofocus">
 		</label><br>
 		<label>
 			E-mail
